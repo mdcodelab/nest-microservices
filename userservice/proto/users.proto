@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package users;
+
+// serviciul gRPC
+service UsersService {
+  rpc GetUserById (GetUserByIdRequest) returns (UserResponse);
+}
+
+// request
+message GetUserByIdRequest {
+  string id = 1;
+}
+
+// response
+message UserResponse {
+  string id = 1;
+  string email = 2;
+}
