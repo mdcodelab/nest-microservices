@@ -2,13 +2,13 @@ import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule, InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
-//import { UsersModule } from './users/user.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI as string),
-    //UsersModule
+    TasksModule
   ],
 })
 export class AppModule implements OnModuleInit {
