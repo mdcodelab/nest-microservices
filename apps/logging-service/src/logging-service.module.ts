@@ -1,26 +1,21 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { LoggingService } from './logging-service.service';
 import { LoggingServiceController } from './logging-service.controller';
-import { LoggingServiceService } from './logging-service.service';
+import { Rider, RiderSchema } from './schema';
+
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  throw new Error('MONGO_URI is not defined');
+}
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const uri = configService.get<string>('MONGO_URI');
-        console.log('Mongo URI:', uri); // debug
-        return { uri };
-      },
-    }),
+    MongooseModule.forRoot(mongoUri),
+    MongooseModule.forFeature([{ name: Rider.name, schema: RiderSchema }]),
   ],
   controllers: [LoggingServiceController],
-  providers: [LoggingServiceService],
+  providers: [LoggingService],
+  exports: [LoggingService],
 })
 export class LoggingServiceModule {}
