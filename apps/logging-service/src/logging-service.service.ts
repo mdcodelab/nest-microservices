@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Rider, RiderDocument } from './schema';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class LoggingService {
@@ -11,11 +12,13 @@ export class LoggingService {
   ) {}
 
   async saveCoordinates(
-    riderId: string,
+    riderId: string | undefined,
     latitude: number,
     longitude: number,
   ): Promise<RiderDocument> {
-    const existing = await this.riderModel.findOne({ riderId });
+    // Dacă nu există riderId, generează unul
+    const id = riderId || uuidv4();
+    const existing = await this.riderModel.findOne({ riderId: id });
 
     if (existing) {
       existing.latitude = latitude;
@@ -24,7 +27,7 @@ export class LoggingService {
     }
 
     const newRider = new this.riderModel({
-      riderId,
+      riderId: id,
       latitude,
       longitude,
     });

@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Rider {
-  @Prop({ required: true })
+  @Prop()
   riderId: string;
 
   @Prop({ required: true })

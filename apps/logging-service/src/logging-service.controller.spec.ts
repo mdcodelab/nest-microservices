@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggingServiceController } from './logging-service.controller';
-import { LoggingServiceService } from './logging-service.service';
+import { LoggingService } from './logging-service.service';
 
 describe('LoggingServiceController', () => {
   let loggingServiceController: LoggingServiceController;
@@ -8,15 +8,17 @@ describe('LoggingServiceController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [LoggingServiceController],
-      providers: [LoggingServiceService],
+      providers: [LoggingService],
     }).compile();
 
-    loggingServiceController = app.get<LoggingServiceController>(LoggingServiceController);
+    loggingServiceController = app.get<LoggingServiceController>(
+      LoggingServiceController,
+    );
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(loggingServiceController.getHello()).toBe('Hello World!');
+    it('should be defined', () => {
+      expect(loggingServiceController).toBeDefined();
     });
   });
 });

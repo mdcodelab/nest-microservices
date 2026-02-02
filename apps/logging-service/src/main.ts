@@ -1,14 +1,13 @@
+import './load-env'; // 🔥 primul import
 import { NestFactory } from '@nestjs/core';
 import { LoggingServiceModule } from './logging-service.module';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(LoggingServiceModule);
+  app.enableCors();
 
-  await app.listen(3001);
-  console.log('LoggingService running on port 3001');
+  await app.listen(3001, '0.0.0.0');
+  console.log('LoggingService running on http://localhost:3001');
 }
 
 bootstrap();
