@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RiderServiceController } from './rider-service.controller';
-import { RiderServiceService } from './rider-service.service';
+import { RiderService } from './rider-service.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -13,6 +13,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot(process.env.MONGO_URI!),
   ],
   controllers: [RiderServiceController],
-  providers: [RiderServiceService],
+  providers: [RiderService],
 })
 export class RiderServiceModule {}
